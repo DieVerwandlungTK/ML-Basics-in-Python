@@ -4,8 +4,7 @@ from abc import abstractmethod
 
 class DataLoader():
     @abstractmethod
-    def __init__(self, file_path: str, batch_size: int, shuffle: bool):
-        self._file_path = file_path
+    def __init__(self, batch_size: int, shuffle: bool):
         self._batch_size = batch_size
         self._shuffle = shuffle
         
@@ -63,10 +62,21 @@ class IrisDataLoader(DataLoader):
         self._features = np.array([list(map(float, line[:-1])) for line in data][:-1])
         self._targets = [line[-1] for line in data][:-1]
 
-        super().__init__(file_path, batch_size, shuffle)
+        super().__init__(batch_size, shuffle)
     
     def __getitem__(self, index):
         return self._features[index], self._targets[index]
     
     def __len__(self):
         return len(self._features)
+
+class Subset():
+    def __init__(self, dataset, indices):
+        self._dataset = dataset
+        self._indices = indices
+    
+    def __getitem__(self, index):
+        return self._dataset[self._indices[index]]
+    
+    def __len__(self):
+        return len(self._indices)
