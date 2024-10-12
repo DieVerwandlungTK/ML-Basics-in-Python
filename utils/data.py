@@ -13,8 +13,6 @@ class DataLoader():
         
         else:
             self._indices = np.arange(len(self))
-        
-        self._idx = 0
     
     @abstractmethod
     def __getitem__(self, index):
@@ -25,6 +23,7 @@ class DataLoader():
         pass
 
     def __iter__(self):
+        self._idx = 0
         return self
     
     def __next__(self):
@@ -69,14 +68,36 @@ class IrisDataLoader(DataLoader):
     
     def __len__(self):
         return len(self._features)
+    
+    def get_features(self):
+        return self._features
+    
+    def get_targets(self):
+        return self._targets
+    
+    def split(self, test_size: float, shuffle: bool = True):
+        if shuffle:
+            train_indices = np.random.choice(len(self), int(len(self)*(1-test_size)), replace=False)
+            test_indices = np.array([i for i in range(len(self)) if i not in train_indices])
 
-class Subset():
+        else:
+            train_indices = np.arange(int(len(self)*(1-test_size)))
+            test_indices = np.arange(int(len(self)*(1-test_size)), len(self))
+        
+        train_loader = Subset(self, train_indices)
+        test_loader = Subset(self, test_indices)
+
+        return train_loader, test_loader
+        
+class Subset(DataLoader):
     def __init__(self, dataset, indices):
         self._dataset = dataset
-        self._indices = indices
+        self._indices_mask = indices
+        self._indices = np.arange(len(indices))
+        self._batch_size = dataset._batch_size
     
     def __getitem__(self, index):
-        return self._dataset[self._indices[index]]
+        return self._dataset[self._indices_mask[index]]
     
     def __len__(self):
         return len(self._indices)
