@@ -16,3 +16,23 @@ class Perceptron():
         error = y - y_hat
         self.weights += self.learning_rate * error * x
         self.bias += self.learning_rate * error
+
+class MultiClassPerceptron():
+    def __init__(self, n_inputs, n_classes, learning_rate=0.01):
+        self.n_inputs = n_inputs
+        self.n_classes = n_classes
+        self.learning_rate = learning_rate
+        self.weights = np.random.rand(n_classes, n_inputs)
+        self.bias = np.random.rand(n_classes)
+        
+    def predict(self, x):
+        z = x @ self.weights.T + self.bias
+        pred = np.zeros(z.shape)
+        pred[np.argmax(z)] = 1.0
+        return pred
+
+    def train(self, x, y):
+        y_hat = self.predict(x)
+        error = y - y_hat
+        self.weights += self.learning_rate * error[:, None] * x
+        self.bias += self.learning_rate * error
