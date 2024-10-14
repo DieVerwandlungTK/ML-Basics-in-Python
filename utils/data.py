@@ -67,7 +67,7 @@ class DataLoader(ABC):
 
         Yields:
             tuple: Yields features and targets in a batch size
-            
+
         """
         i = 0
         while i + self.batch_size < len(self.features):
@@ -91,6 +91,9 @@ class Subset(DataLoader):
         while i + self.batch_size < len(self.indices):
             yield self[i:i+self.batch_size]
             i += self.batch_size
+    
+    def shuffle(self):
+        np.random.shuffle(self.indices)
     
     @staticmethod
     def _split_classes(dataset):

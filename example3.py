@@ -8,6 +8,7 @@ from utils.data import Subset
 data_loader = IrisDataLoader('data/iris/iris.data', batch_size=4, shuffle=True)
 print(data_loader)
 train_set, test_set = Subset.split(data_loader, 0.8, stratify=True)
+train_set.shuffle()
 
 print(f'train set count: {len(train_set)}')
 print(f'test set count: {len(test_set)}')
@@ -23,6 +24,7 @@ for epoch in range(50):
         for i in range(len(y)):
             target[i] = 1.0 if y[i] == POS_CLASS else 0.0
         adaline.train(x, target)
+    train_set.shuffle()
 
 correct = 0
 for x, y in test_set:

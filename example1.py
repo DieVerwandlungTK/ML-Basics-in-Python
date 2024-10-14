@@ -8,6 +8,7 @@ from utils.data import Subset
 data_loader = IrisDataLoader('data/iris/iris.data', batch_size=1, shuffle=True)
 print(data_loader)
 train_set, test_set = Subset.split(data_loader, 0.8, stratify=True)
+train_set.shuffle()
 
 print(f'train set count: {len(train_set)}')
 print(f'test set count: {len(test_set)}')
@@ -21,6 +22,7 @@ for epoch in range(50):
         x, y = x[0], y[0]
         y = 1.0 if y == POS_CLASS else 0.0
         perceptron.train(x, y)
+    train_set.shuffle()
 
 correct = 0
 for x, y in test_set:

@@ -8,6 +8,7 @@ from utils.data import Subset
 data_loader = IrisDataLoader('data/iris/iris.data', batch_size=1, shuffle=True)
 print(data_loader)
 train_set, test_set = Subset.split(data_loader, 0.8, stratify=True)
+train_set.shuffle()
 
 print(f'train set count: {len(train_set)}')
 print(f'test set count: {len(test_set)}')
@@ -20,12 +21,13 @@ target_map = {
     'Iris-virginica': np.array([0, 0, 1], dtype=np.float64)
 }
 
-NUM_EPOCHS = 1000
+NUM_EPOCHS = 500
 for epoch in range(NUM_EPOCHS):
     for x, y in train_set:
         x, y = x[0], y[0]
         y = target_map[y]
         perceptron.train(x, y)
+    train_set.shuffle()
 
 correct = 0
 for x, y in test_set:
