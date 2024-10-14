@@ -1,6 +1,7 @@
 import numpy as np
+from models.model import Model
 
-class Perceptron():
+class Perceptron(Model):
     def __init__(self, n_inputs, learning_rate=0.01):
         self.n_inputs = n_inputs
         self.learning_rate = learning_rate
@@ -17,7 +18,7 @@ class Perceptron():
         self.weights += self.learning_rate * error * x
         self.bias += self.learning_rate * error
 
-class MultiClassPerceptron():
+class MultiClassPerceptron(Model):
     def __init__(self, n_inputs, n_classes, learning_rate=0.01):
         self.n_inputs = n_inputs
         self.n_classes = n_classes

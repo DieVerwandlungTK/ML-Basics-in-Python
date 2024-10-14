@@ -1,6 +1,6 @@
 import numpy as np
 
-from perceptron.perceptron import Perceptron, MultiClassPerceptron
+from models.perceptron.perceptron import MultiClassPerceptron
 from utils.dataloaders import IrisDataLoader
 from utils.data import Subset
 
