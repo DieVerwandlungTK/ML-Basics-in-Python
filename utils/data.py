@@ -1,18 +1,78 @@
-from abc import abstractmethod
+from abc import ABC, abstractmethod
 import numpy as np
 
-class DataLoader():
+class DataLoader(ABC):
+    """ Abstract class for data loaders
+
+    __init__, __len__, and __getitem__ methods must be implemented in the derived class
+
+    Attributes:
+        batch_size (int): size of the batch
+        features (ndarray): features (num of data) x (num of features)
+        targets (ndarray): targets (num of data) x 1
+
+    """
+
+    @property
+    def batch_size(self):
+        return self._batch_size
+
+    @batch_size.setter
+    def batch_size(self, value):
+        self._batch_size = value
+
+    @property
+    def features(self):
+        return self._features
+
+    @features.setter
+    def features(self, value):
+        self._features = value
+
+    @property
+    def targets(self):
+        return self._targets
+
+    @targets.setter
+    def targets(self, value):
+        self._targets = value
+
     @abstractmethod
     def __init__(self):
+        """ Constructor of DataLoader class
+        """
         pass
 
     @abstractmethod
     def __len__(self):
+        """ The number of data should be returned
+        """
         pass
 
     @abstractmethod
     def __getitem__(self, idx):
+        """ Return the data at the given index
+
+        Args:
+            idx (int): should be index of the data
+        
+        Returns:
+            tuple: features and target at the given index should be returned
+
+        """
         pass
+
+    def __iter__(self):
+        """ Iterate over the data loader
+
+        Yields:
+            tuple: Yields features and targets in a batch size
+            
+        """
+        i = 0
+        while i + self.batch_size < len(self.features):
+            yield (self.features[i:i+self.batch_size], self.targets[i:i+self.batch_size])
+            i += self.batch_size
 
 class Subset(DataLoader):
     def __init__(self, dataset, indices):
