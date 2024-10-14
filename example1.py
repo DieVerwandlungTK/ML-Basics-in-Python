@@ -1,7 +1,6 @@
-from utils.data import IrisDataLoader
+import numpy as np
 
-if __name__ == "__main__":
-    loader = IrisDataLoader("data/iris/iris.data", 3, True)
-    
-    for features, targets in loader:
-        print(features, targets)
+from perceptron.perceptron import Perceptron
+from utils.dataloaders import IrisDataLoader
+
+data_loader = IrisDataLoader('data/iris/iris.data')
