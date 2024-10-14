@@ -31,5 +31,12 @@ class IrisDataLoader(DataLoader):
         i = 0
         while i + self.batch_size < len(self.features):
             yield (self.features[i:i+self.batch_size], self.targets[i:i+self.batch_size])
-            i += self.batch_size       
+            i += self.batch_size
+    
+    def __repr__(self) -> str:
+        res = f'IrisDataLoader\nbatch size: {self.batch_size}\n'
+        res += f'shuffle: {self.shuffle}\nfeatures: {self.features.shape}\ntargets: {self.targets.shape}'
+        classes = np.unique(self.targets)
+        res += f'\nclasses: {classes}\n'
+        return res
         
