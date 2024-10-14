@@ -4,6 +4,7 @@ from models.perceptron.perceptron import Perceptron
 from utils.dataloaders import IrisDataLoader
 from utils.data import Subset
 
+# The batch size should be 1 when using perceptron
 data_loader = IrisDataLoader('data/iris/iris.data', batch_size=1, shuffle=True)
 print(data_loader)
 train_set, test_set = Subset.split(data_loader, 0.8, stratify=True)
