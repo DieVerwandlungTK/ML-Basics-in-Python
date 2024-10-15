@@ -18,8 +18,8 @@ class MultiClassPerceptron(Model):
     def train(self, x, y):
         y_hat = self.predict(x)
         error = y - y_hat
-        self.weights += self.learning_rate * error[:, None] * x
-        self.bias += self.learning_rate * error
+        self.weights += self.learning_rate*error[:, None]*x
+        self.bias += self.learning_rate*error
 
 class Perceptron(MultiClassPerceptron):
     def __init__(self, n_inputs, learning_rate=0.01):
@@ -32,5 +32,5 @@ class Perceptron(MultiClassPerceptron):
     def train(self, x, y):
         y_hat = self.predict(x)
         error = np.array([y - y_hat])
-        self.weights += self.learning_rate * error[:, None] * x
-        self.bias += self.learning_rate * error
+        self.weights += self.learning_rate*error[:, None]*x
+        self.bias += self.learning_rate*error
