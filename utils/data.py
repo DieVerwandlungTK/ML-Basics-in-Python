@@ -70,7 +70,7 @@ class DataLoader(ABC):
 
         """
         i = 0
-        while i + self.batch_size < len(self.features):
+        while i + self.batch_size <= len(self.features):
             yield (self.features[i:i+self.batch_size], self.targets[i:i+self.batch_size])
             i += self.batch_size
 
@@ -88,7 +88,7 @@ class Subset(DataLoader):
     
     def __iter__(self):
         i = 0
-        while i + self.batch_size < len(self.indices):
+        while i + self.batch_size <= len(self.indices):
             yield self[i:i+self.batch_size]
             i += self.batch_size
     
