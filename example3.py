@@ -4,15 +4,15 @@ from models.neural_network.adaline import MultiClassADALINE
 from utils.dataloaders import IrisDataLoader
 from utils.data import Subset
 
-data_loader = IrisDataLoader('data/iris/iris.data', batch_size=1, shuffle=True)
-print(data_loader)
+data_loader = IrisDataLoader('data/iris/processed.data', batch_size=1, shuffle=True)
+
 train_set, test_set = Subset.split(data_loader, 0.8, stratify=True)
 train_set.shuffle()
 
 print(f'train set count: {len(train_set)}')
 print(f'test set count: {len(test_set)}')
 
-adaline = MultiClassADALINE(4, 3, 1e-3)
+adaline = MultiClassADALINE(4, 3, 1e-4)
 
 target_map = {
     'Iris-setosa': np.array([1, 0, 0], dtype=np.float64),
