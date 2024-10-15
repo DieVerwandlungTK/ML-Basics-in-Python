@@ -14,19 +14,18 @@ class MultiClassADALINE(Model):
         return np.mean((y - self.predict(x))**2)
     
     def _predict(self, x):
-        return x@self.weights + self.bias[None, :]
+        return x@self.weights + self.bias
 
     def predict(self, x):
         z = self._predict(x)
         pred = np.zeros(z.shape)
-        pred[np.argmax(z, axis=0),:] = 1.0
-        print(pred)
+        for i in range(len(z)):
+            pred[i][np.argmax(z[i])] = 1.0
         return pred
     
     def train(self, x, y):
-        print(x.shape, y.shape)
-        y_hat = self._predict(x)
-        mean_error = np.mean(y - y_hat, axis=0)
-        print(mean_error.shape, x.shape, self.weights.shape)
-        self.weights += 2*self.learning_rate*mean_error*np.sum(x, axis=0)
-        self.bias += self.learning_rate*mean_error
+        z = self._predict(x)
+        y[y == 0] = -1.0
+        error = y - z
+        self.weights += 2*self.learning_rate*(x.T@error)/x.shape[0]
+        self.bias += 2*self.learning_rate*np.mean(error, axis=0)
