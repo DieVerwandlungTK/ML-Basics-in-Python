@@ -27,11 +27,12 @@ ax.set_xlabel('iters')
 ax.set_ylabel('loss')
 lines, = ax.plot([], [])
 
-NUM_EPOCHS = 500
+NUM_EPOCHS = 50
 iters = 0
 losses = []
 min_loss, max_loss = 1e9, -1e9
 for epoch in range(NUM_EPOCHS):
+    print(f'epoch: {epoch+1}/{NUM_EPOCHS}')
     for x, y in train_set:
         iters += 1
         target = []

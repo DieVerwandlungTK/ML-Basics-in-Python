@@ -11,7 +11,7 @@ class MultiClassADALINE(Model):
         self.bias = np.random.rand(n_classes)
         
     def loss(self, x, y):
-        return np.mean((y - self.predict(x))**2)
+        return np.mean((y - self._predict(x))**2)
     
     def _predict(self, x):
         return x@self.weights + self.bias
